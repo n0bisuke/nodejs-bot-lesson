@@ -2,13 +2,8 @@
 
 const Twitter = require('twitter');
 const client = new Twitter(require('./config'));
+const tw_post = require('./libs/twitter_post');
 const tenki = require('./scripts/tenki');
-// let params = {screen_name: 'n0bisuke'};
-// client.get('statuses/user_timeline', params, (error, tweets, response) => {
-//   if (!error) {
-//     console.log(tweets);
-//   }
-// });
 
 client.stream('statuses/filter', {'track':'@n0bisuke'}, (stream) => {
   stream.on('data', (data) => {
@@ -17,42 +12,27 @@ client.stream('statuses/filter', {'track':'@n0bisuke'}, (stream) => {
 
     if(!words[1]){
       console.log('コマンドなし');
-      return; //エラーコマンドなし
+      return; //エラー コマンドなし
     }
     
     let command = words[1];
     if(command === 'ping'){
       //ここにpingコマンドをキャッチしたときの処理を書く
       console.log('pingって言われた。');
-      
-      let reply_target = data.user.screen_name; //リプライしてきたユーザー名
-      let tweet = 'pong';
-      let time = new Date().getTime(); //Twitterの投稿仕様にひっかからなくする
-      tweet = `@${reply_target} ${tweet} ${time}`;
-      console.log(tweet);
-      client.post('statuses/update', {status : tweet}, (error, tweet, response) => {
-          if (error) {
-              process.stderr.write(error + '\n');
-              return;
-          }
-      }); 
+      tw_post(data.user.screen_name, 'pong', client); //libs/twitter_post.jsから呼び出す 
     }else if(command === 'tenki'){
       //tenkiコマンドをキャッチしたときの処理
-      
-      let reply_target = data.user.screen_name; //リプライしてきたユーザー名
-      let time = new Date().getTime(); //Twitterの投稿仕様にひっかからなくする
       tenki((tweet) => {
-        tweet = `@${reply_target} ${tweet} ${time}`;
-        console.log(tweet);
-        client.post('statuses/update', {status : tweet}, (error, tweet, response) => {
-            if (error) {
-                process.stderr.write(error + '\n');
-                return;
-            }
-        }); 
+        tw_post(data.user.screen_name, tweet, client); //libs/twitter_post.jsから呼び出す
       });
     }
 
   });
 });
 
+// let params = {screen_name: 'n0bisuke'};
+// client.get('statuses/user_timeline', params, (error, tweets, response) => {
+//   if (!error) {
+//     console.log(tweets);
+//   }
+// });
