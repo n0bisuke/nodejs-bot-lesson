@@ -30,6 +30,25 @@ client.stream('statuses/filter', {'track':'@n0bisuke'}, (stream) => {
   });
 });
 
+const Hapi = require('hapi');
+const server = new Hapi.Server();
+
+server.connection({port: 1989});
+
+server.route({
+  method: 'GET',
+  path:'/',
+  handler: (request, reply) => {
+    reply().code(204);
+    console.log(request.query);
+    console.log('-------\n');
+  }
+});
+
+server.start(() => {
+  console.log('Server running at:', server.info.uri);
+});
+
 // let params = {screen_name: 'n0bisuke'};
 // client.get('statuses/user_timeline', params, (error, tweets, response) => {
 //   if (!error) {
