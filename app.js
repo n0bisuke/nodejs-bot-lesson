@@ -29,7 +29,9 @@ client.stream('statuses/filter', {'track':'@n0bisuke'}, (stream) => {
     }
     
     let command = words[1];
-    console.log(command);
+    if(command === 'ping'){
+      //ここにpingコマンドをキャッチしたときの処理を書く 
+    }
   });
 });
 
