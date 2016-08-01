@@ -24,8 +24,10 @@ client.stream('statuses/filter', {'track':'@n0bisuke'}, (stream) => {
     if(command === 'ping'){
       //ここにpingコマンドをキャッチしたときの処理を書く
       console.log('pingって言われた。');
+      
+      let reply_target = data.user.screen_name; //
       let tweet = 'pong';
-      client.post('statuses/update', {status : tweet}, (error, tweet, response) => {
+      client.post('statuses/update', {status : `@${reply_target} ${tweet}`}, (error, tweet, response) => {
           if (error) {
               process.stderr.write(error + '\n');
               return;
