@@ -10,14 +10,6 @@ const client = new Twitter(require('./config'));
 //   }
 // });
 
-// let tweet = 'ねむ';
-// client.post('statuses/update', {status : tweet}, (error, tweet, response) => {
-//     if (error) {
-//         process.stderr.write(error + '\n');
-//         return;
-//     }
-// });
-
 client.stream('statuses/filter', {'track':'@n0bisuke'}, (stream) => {
   stream.on('data', (data) => {
     let words = data.text.split(' ');
@@ -30,7 +22,16 @@ client.stream('statuses/filter', {'track':'@n0bisuke'}, (stream) => {
     
     let command = words[1];
     if(command === 'ping'){
-      //ここにpingコマンドをキャッチしたときの処理を書く 
+      //ここにpingコマンドをキャッチしたときの処理を書く
+      console.log('pingって言われた。');
+      let tweet = 'pong';
+      client.post('statuses/update', {status : tweet}, (error, tweet, response) => {
+          if (error) {
+              process.stderr.write(error + '\n');
+              return;
+          }
+      });
+      
     }
   });
 });
