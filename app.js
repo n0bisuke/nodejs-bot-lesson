@@ -9,3 +9,11 @@ client.get('statuses/user_timeline', params, (error, tweets, response) => {
     console.log(tweets);
   }
 });
+
+let tweet = 'ねむ';
+client.post('statuses/update', {status : tweet}, (error, tweet, response) => {
+    if (error) {
+        process.stderr.write(error + '\n');
+        return;
+    }
+});
