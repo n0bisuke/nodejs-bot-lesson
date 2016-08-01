@@ -42,6 +42,7 @@ server.route({
     reply().code(204);
     console.log(request.query);
     console.log('-------\n');
+    tw_post('', `${request.query.user}`, client);
   }
 });
 
