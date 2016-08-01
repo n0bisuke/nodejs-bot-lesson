@@ -20,6 +20,8 @@ const client = new Twitter(require('./config'));
 
 client.stream('statuses/filter', {'track':'@n0bisuke'}, (stream) => {
   stream.on('data', (data) => {
-    console.log(data.text);
+    let words = data.text.split(' ');
+    console.log(words);
   });
 });
+
