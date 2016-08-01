@@ -9,7 +9,7 @@ http.get(TENKI_URL, (res) => {
 
     res.on('end', (res) => {
         res = JSON.parse(body);
-        console.log(res);
+        console.log(`${res.forecasts[0].dateLabel}の${res.location.city}は${res.forecasts[0].telop}で最高気温は${res.forecasts[0].temperature.max.celsius}度です。`);
     });
 }).on('error', (e) => {
     console.log(e.message); //エラー時
