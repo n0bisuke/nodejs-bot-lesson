@@ -25,16 +25,19 @@ client.stream('statuses/filter', {'track':'@n0bisuke'}, (stream) => {
       //ここにpingコマンドをキャッチしたときの処理を書く
       console.log('pingって言われた。');
       
-      let reply_target = data.user.screen_name; //
+      let reply_target = data.user.screen_name; //リプライしてきたユーザー名
       let tweet = 'pong';
-      client.post('statuses/update', {status : `@${reply_target} ${tweet}`}, (error, tweet, response) => {
+      let time = new Date().getTime(); //Twitterの投稿仕様にひっかからなくする
+      tweet = `@${reply_target} ${tweet} ${time}`;
+      console.log(tweet);
+      client.post('statuses/update', {status : tweet}, (error, tweet, response) => {
           if (error) {
               process.stderr.write(error + '\n');
               return;
           }
-      });
-      
+      }); 
     }
+    
   });
 });
 
