@@ -50,6 +50,15 @@ server.start(() => {
   console.log('Server running at:', server.info.uri);
 });
 
+let CronJob = require('cron').CronJob;
+
+module.exports = (gitter) => {    
+    //モーニングコール
+    new CronJob('00 00 10 * * 1-5', () => {
+      tw_post('', `おはよう！`, client);
+    }, () => {},true,'Asia/Tokyo');
+}
+
 // let params = {screen_name: 'n0bisuke'};
 // client.get('statuses/user_timeline', params, (error, tweets, response) => {
 //   if (!error) {
