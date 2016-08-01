@@ -22,6 +22,14 @@ client.stream('statuses/filter', {'track':'@n0bisuke'}, (stream) => {
   stream.on('data', (data) => {
     let words = data.text.split(' ');
     console.log(words);
+
+    if(!words[1]){
+      console.log('コマンドなし');
+      return; //エラーコマンドなし
+    }
+    
+    let command = words[1];
+    console.log(command);
   });
 });
 
